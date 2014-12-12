@@ -1,0 +1,87 @@
+<html>
+<head>
+	 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<title>Document</title>
+</head>
+<body>
+
+<script>
+
+var ws = new WebSocket("ws://localhost:3000");
+  var body = d3.select("body");
+  body.style("padding", "20px");
+  //body.append("ul")
+ 
+
+   body.insert("input")
+   	.attr("type","text")
+   	.attr("class","username")
+   	.attr("value","your name")
+   	.style("display","block"); 
+
+   	body.insert("input")
+   	.attr("type","text")
+   	.attr("class","messagebox")
+   	.attr("value","")
+   	.style("display","block"); 
+
+
+   body.insert("input")
+    .attr("type","button")
+    .attr("class","button")
+    .attr("value","Send to server")
+    .on("click",send)
+    .style("display","block"); 
+
+    body.append("ul");
+    var ul = body.select("ul");
+    var json;
+    function send () {
+    	console.log("trying to get data");
+    	var input = body.select(".messagebox")[0][0].value;
+    	var username = body.select(".username")[0][0].value;
+    	console.log(input);
+    	var message = {
+    		"name": username,
+    		"msg":input
+    	};
+    	json = JSON.stringify(message);
+    	ws.send(json);
+    }
+
+    function append (data) {
+    	body.selectAll("ul").append("li").text(data);
+    }
+
+ws.addEventListener("open", function(evt) {
+  console.log('connected');
+  body.append("p").text("Connected");
+  //document.write("connected...<br>")
+	// });
+	});
+
+ws.addEventListener("message", function(evt) {
+	console.log("Message evt.data is: " + evt.data);
+	ul.append("li").text([evt.data]);
+	var input = (JSON.parse([evt.data]));
+	//var newjson = JSON.parse(json); //confirmed that package can be deserialized
+
+	if(input !== "" ) {
+		console.log("inside if");
+		console.log(input.name);
+		ul.append("li").text(input);
+	}
+	//append(input);
+	//body.append("ul").select("li").append("li").text("hey");
+     //ul = body.append("ul");//.append("ul");
+    // ul.insert("ul","li").data(input).enter().append("li").text(String);
+     //d3.select("body").select("ul").append("li").data(input).enter().append("li").text(String); //works but doesn't add UL..only LIs
+     //ul.append("li").text(input)//data(input).enter().append("li").text(string);  //doesn't work
+    //document.write(evt.data + "<br>");
+ 	
+});
+  
+</script>
+	
+</body>
+</html>
