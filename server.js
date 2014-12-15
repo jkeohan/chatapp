@@ -69,9 +69,9 @@ function searchBadWords (badwordy) {
 }
 
 function addClients (client) {
-    console.log("client is: " + this);
+   // console.log("client is: " + this);
     clients.push(client);
-    console.log("Initial Connection: " + clients.length);
+    //console.log("Initial Connection: " + clients.length);
 }
 
 function removeClients(client) {
