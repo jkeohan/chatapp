@@ -20,6 +20,12 @@ var wrapper = body.append("div")
     .attr("class","wrapper")
 
 wrapper.append("h1").text("chatApp away....")
+wrapper.append("p")
+    .attr("class","status")
+    .text("Connecting....");
+var status = wrapper.select(".status")
+
+//wrapper.append("p").text("Connecting....")
 
 wrapper.append("ul")
 
@@ -49,7 +55,7 @@ function send () {
     	//var username = body.select(".username")[0][0].value;
     	console.log(msgbox);
     	var userObject = {
-    		"name": "joe",
+    		"name": "john",
     		"msg": msgbox
     	};
       json_serialized = serialize(userObject); 
@@ -74,26 +80,28 @@ function deserialize (data){
 }
 
 ws.addEventListener("open", function(evt) {
+  var status = wrapper.select(".status")
   console.log('connected');
-  body.append("p").text("Connected");
-  //document.write("connected...<br>")
-	// });
+  status.text("Connected to server");
 	});
+
+ws.addEventListener("close", function(evt) {
+  var status = wrapper.select(".status")
+  console.log("disconnected");
+  status.text("Disconnected from server");
+
+})
 
 ws.addEventListener("message", function(evt) {
 	console.log("Message evt.data is: " + evt.data);
 	//ul.append("li").text([evt.data]);
   //var input = evt.data  //used to test if client can receive data from default server...
-	var incomingMsg = (JSON.parse([evt.data]));
-	var newjson = JSON.parse(incomingMsg); //confirmed that package can be deserialized
-
-	if(input !== "" ) {
-		console.log("inside if");
-    ul.append("li").text(incomingMsg.name + ": " + incomingmsg.msg)
+	var newjson = JSON.parse(evt.data); //confirmed that package can be deserialized
+  console.log("json.parse is: " + newjson);
+  ul.append("li").text(newjson.name + ": " + newjson.msg)
       .attr("class","received")
       //testing only
     //ul.append("li").text(input) //used to test if client can receive data from default server...
-	}
 	//append(input);
 	//body.append("ul").select("li").append("li").text("hey");
      //ul = body.append("ul");//.append("ul");

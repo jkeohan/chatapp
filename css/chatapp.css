@@ -1,0 +1,51 @@
+body {
+   padding:50px;
+} 
+
+h1 {
+	text-align: center;
+}
+
+p.status {
+	text-align: center;
+}
+
+ul {
+	list-style-type: none;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.95rem;
+}
+
+ul li {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #EEE;
+}
+
+li.send {
+	 background-color: #ECF1F2;
+}
+
+li.received {
+	 background-color: white;
+}
+
+ .wrapper {
+
+  	background-color: lightblue;
+	width: 600px;
+    height:200px;
+    margin: 0 auto;
+    border: solid;
+  }
+
+  .messagebox{
+  	 height:40px;
+  	 width: 500px;
+  }
+
+   

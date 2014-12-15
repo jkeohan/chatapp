@@ -49,7 +49,7 @@ function send () {
     	//var username = body.select(".username")[0][0].value;
     	console.log(msgbox);
     	var userObject = {
-    		"name": "joe",
+    		"name": "paul",
     		"msg": msgbox
     	};
       json_serialized = serialize(userObject); 
@@ -89,7 +89,7 @@ ws.addEventListener("message", function(evt) {
 
 	if(input !== "" ) {
 		console.log("inside if");
-    ul.append("li").text(incomingMsg.name + ": " + incomingmsg.msg)
+    ul.append("li").text()
       .attr("class","received")
       //testing only
     //ul.append("li").text(input) //used to test if client can receive data from default server...
