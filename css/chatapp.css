@@ -45,7 +45,21 @@ li.received {
 
   .messagebox{
   	 height:40px;
-  	 width: 500px;
+  	 width: 460px;
+  	 margin: 5px 5px;
   }
 
+.button {
+color: #fff;
+background-color: #6496c8;
+width: 110px;
+heigh: 35px !important;
+font-size: 26px;
+float: right;
+margin-top: 8px;
+margin-left: 10px;
+margin-right: 10px;
+border: none;
+border-radius: 5px;
+}
    
