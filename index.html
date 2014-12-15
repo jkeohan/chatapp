@@ -1,73 +1,155 @@
-<html>
-<head>
-	 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-   <script src="js/d3.min.js" charset="utf-8"></script>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <link href="css/normalize.css" rel="stylesheet">
     <link href="css/chatapp.css" rel="stylesheet">
-	<title>Document</title>
-</head>
-<body>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="js/d3.min.js" charset="utf-8"></script>
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <!--<link href="css/bootstrap.min.css" rel="stylesheet">-->
 
 
-<script>
+  </head>
+  <body>
+    <script>
 
-//var ws = new WebSocket("ws://l:3000");
-var ws = new WebSocket("ws://joe.princesspeach.nyc:3000")
-var body = d3.select("body");
+ var username = "";
+ var ws = new WebSocket("ws://localhost:3000");
 
-
-var body = d3.select("body")
- 
-var wrapper = body.append("div")
-    .attr("class","wrapper")
-
-wrapper.append("h1").text("chatApp away....")
-wrapper.append("p")
-    .attr("class","status")
-    .text("Connecting....");
-var status = wrapper.select(".status")
-
-//wrapper.append("p").text("Connecting....")
-
-wrapper.append("ul")
-
-var msgbox = wrapper.insert("input")
-   	.attr("type","text")
-   	.attr("class","messagebox")
-   	.attr("value","")
+ window.onload = function()  {
   
-wrapper.insert("input")
+    var body = d3.select("body")
+      .style("padding","50px")
+    var wrapper = body.append("div")
+      .attr("class","wrapper")
+      .style("background-color","lightblue")
+      .style("width","600px")
+      .style("height","200px")
+      .style("margin","0 auto")
+      .style("border","solid")
+
+    wrapper.append("h1").text("Welcome to chatApp")
+      .style("text-align","center")
+      
+    wrapper.append("input")
+    .attr("type","text")
+    .attr("class","username")
+    .attr("placeholder","Login Name")
+    .style("display","block")
+    .style("margin","0 auto")
+
+    wrapper.append("input")
+    .attr("type","text")
+    .attr("class","password")
+    .attr("placeholder","Password")
+    .style("display","block")
+    .style("margin","0 auto")
+
+
+    wrapper.insert("input")
     .attr("type","button")
-    .attr("class","button")
+    .attr("class","button-login")
     .attr("value","Submit")
-    .on("click",send)
- 
+    .on("click",openchat)
+    .style("margin","5px auto")
+    .style("display","block")
+    .style("width","161px")
+    .style("height","26px")
+    .style("padding","0")
 
-    //d3.select("h1").insert(".messagebox","ul")
-    //d3.select("h1").append("ul").append('li') //this works but appends the ul withing the h1
+  }
+
+function openchat () {
+        //username = document.querySelector(".username").value
+        username = d3.select("body").select(".username")[0][0].value;
+        console.log("username is: ")
+        console.log(username)
+        d3.select("body").remove();
+        d3.select("html").append("body");
+        var body = d3.select("body");
+     
+        var wrapper = body.append("div")
+            .attr("class","wrapper")
+
+        wrapper.append("h1").text("chatApp away....")
+        wrapper.append("p")
+            .attr("class","status")
+            .text("Connecting....");
+        var status = wrapper.select(".status");
+           var msgbox = wrapper.insert("input")
+            .attr("type","text")
+            .attr("class","messagebox")
+            .attr("value","")
+          
+        wrapper.insert("input")
+            .attr("type","button")
+            .attr("class","button-chat")
+            .attr("value","Submit")
+            .on("click",send)
+        var ul = body.select(".wrapper").select("ul"); 
+
+            //d3.select("h1").insert(".messagebox","ul")
+            //d3.select("h1").append("ul").append('li') //this works but appends the ul withing the h1
+            
+
+      
+        //ws = new WebSocket("ws://localhost:3000");
+        ws.addEventListener("open", function(evt) {
+        var status = wrapper.select(".status")
+        console.log('connected');
+        status.text("Connected to server");
+        });
+}
     
-
-var ul = body.select(".wrapper").select("ul");
 var json_serialized;
 var json_deserialized;
+var body = d3.select("body")
+var wrapper = body.select(".wrapper")
+            .attr("class","wrapper");
 
 function send () {
-    	var msgbox = body.select(".messagebox")[0][0].value;
-    	//var username = body.select(".username")[0][0].value;
-    	console.log(msgbox);
-    	var userObject = {
-    		"name": "joe",
-    		"msg": msgbox
-    	};
+      body = d3.select("body");
+      var ul = body.select(".wrapper").insert("ul",".messagebox")
+      var msgbox1 = document.querySelector(".messagebox").value
+
+        var msgbox = wrapper.insert("input")
+            .attr("type","text")
+            .attr("class","messagebox")
+            .attr("value","")
+          
+        wrapper.insert("input")
+            .attr("type","button")
+            .attr("class","button-chat")
+            .attr("value","Submit")
+            .on("click",send)
+
+      var msgbox = body.select(".wrapper").select(".messagebox")[0][0].value;
+      console.log(msgbox)
+      //var username = body.select(".username")[0][0].value;
+      var userObject = {
+        "name": username,
+        "msg": msgbox1
+      };
       console.log("Unserialied is: " + userObject)
-      json_serialized = serialize(userObject); 
+      var json_serialized = JSON.stringify(userObject); 
+      //ws.send(userObject);
       ws.send(json_serialized);
-      console.log("json_serialized is below")
-      console.log(json_serialized);
+      //console.log("json_serialized is below")
+      //console.log(json_serialized);
+
+       //ul.append("li").text(msgbox1)
+        //.attr("class","send")
       ul.append("li").text(userObject.name + ": " + userObject.msg)
-        .attr("class","send")
-        .style("background-color","#F7F7F7")
+         .attr("class","send")
+         //.style("background-color","#F7F7F7")
       //ul.append("li").text(input) 
-      console.log(d3.selectAll(".messagebox")[0][0].value=" ")
+      //console.log(d3.selectAll(".messagebox")[0][0].value=" ")
        
     
 }
@@ -77,18 +159,15 @@ function append (data) {
 }
 
 function serialize (data ) {
-  return JSON.stringify(data)
+  console.log(data)
+  //return JSON.stringify(data)
 }
 
 function deserialize (data){
 
 }
 
-ws.addEventListener("open", function(evt) {
-  var status = wrapper.select(".status")
-  console.log('connected');
-  status.text("Connected to server");
-	});
+
 
 ws.addEventListener("close", function(evt) {
   var status = wrapper.select(".status")
@@ -98,26 +177,38 @@ ws.addEventListener("close", function(evt) {
 })
 
 ws.addEventListener("message", function(evt) {
-	console.log("Message evt.data is: " + evt.data);
-	//ul.append("li").text([evt.data]);
+  console.log("Message evt.data is: " + evt.data);
+  //ul.append("li").text([evt.data]);
   //var input = evt.data  //used to test if client can receive data from default server...
-	var newjson = JSON.parse(evt.data); //confirmed that package can be deserialized
-  console.log("json.parse is: " + newjson);
+  var newjson = JSON.parse(evt.data); //confirmed that package can be deserialized
+  console.log("json.parse is: ")
+  console.log(newjson);
+  var body = d3.select("body");
+  var ul = body.select(".wrapper").insert("ul",".messagebox")
   ul.append("li").text(newjson.name + ": " + newjson.msg)
+         .attr("class","send")
+  //ul.append("li").text(newjson.name + ": " + newjson.msg)
       .attr("class","received")
       //testing only
     //ul.append("li").text(input) //used to test if client can receive data from default server...
-	//append(input);
-	//body.append("ul").select("li").append("li").text("hey");
+  //append(input);
+  //body.append("ul").select("li").append("li").text("hey");
      //ul = body.append("ul");//.append("ul");
     // ul.insert("ul","li").data(input).enter().append("li").text(String);
      //d3.select("body").select("ul").append("li").data(input).enter().append("li").text(String); //works but doesn't add UL..only LIs
      //ul.append("li").text(input)//data(input).enter().append("li").text(string);  //doesn't work
     //document.write(evt.data + "<br>");
- 	
-});
   
-</script>
-	
-</body>
+});
+
+
+
+
+    </script>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+  </body>
 </html>

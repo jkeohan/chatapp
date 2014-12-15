@@ -18,6 +18,7 @@ var specialWords = false;
 
 server.on("connection", function (ws) {
     addClients(ws);
+    console.log("client connected")
     ws.on("message", function (input) {
         var json_deserialized = deserialize(input);
          console.log("json_deserialized is: " + json_deserialized)
@@ -82,6 +83,7 @@ function removeClients(client) {
 
 function deserialize (data){
     console.log("Inside deserialize function")
+    console.log(data);
     var newjson = JSON.parse(data);
     console.log(newjson);
     return newjson;

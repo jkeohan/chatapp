@@ -30,7 +30,7 @@ var status = wrapper.select(".status")
 
 wrapper.append("ul")
 
-wrapper.insert("input")
+var msgbox = wrapper.insert("input")
    	.attr("type","text")
    	.attr("class","messagebox")
    	.attr("value","")
@@ -55,17 +55,22 @@ function send () {
     	//var username = body.select(".username")[0][0].value;
     	console.log(msgbox);
     	var userObject = {
-    		"name": "john",
+    		"name": "joe",
     		"msg": msgbox
     	};
+      console.log("Unserialied is: " + userObject)
       json_serialized = serialize(userObject); 
       ws.send(json_serialized);
-      console.log("json_serialized is: " + json_serialized);
+      console.log("json_serialized is below")
+      console.log(json_serialized);
       ul.append("li").text(userObject.name + ": " + userObject.msg)
         .attr("class","send")
         .style("background-color","#F7F7F7")
       //ul.append("li").text(input) 
-    }
+      console.log(d3.selectAll(".messagebox")[0][0].value=" ")
+       
+    
+}
 
 function append (data) {
     body.selectAll("ul").append("li").text(data);

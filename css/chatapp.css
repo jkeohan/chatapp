@@ -28,10 +28,14 @@ ul li {
 
 li.send {
 	 background-color: #ECF1F2;
+	 font-size: 15px !important;
 }
 
 li.received {
 	 background-color: white;
+	 font-size: 15px !important;
+	 margin-left: 15px;
+
 }
 
  .wrapper {
@@ -49,15 +53,29 @@ li.received {
   	 margin: 5px 5px;
   }
 
-.button {
+.button-chat {
 color: #fff;
 background-color: #6496c8;
 width: 110px;
-heigh: 35px !important;
+height: 35px !important;
 font-size: 26px;
 float: right;
 margin-top: 8px;
-margin-left: 10px;
+/*margin-left: 10px;*/
+margin-right: 10px;
+border: none;
+border-radius: 5px;
+padding:0;
+}
+
+.button-login {
+color: #fff;
+background-color: #6496c8;
+width: 110px;
+height: 35px !important;
+font-size: 26px;
+margin-top: 8px;
+margin-left: 8px;
 margin-right: 10px;
 border: none;
 border-radius: 5px;

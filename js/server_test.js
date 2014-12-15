@@ -4,7 +4,7 @@ var port = process.argv[3];
 
 var wss = require("ws").Server;
 var server = new wss({
-    port: 2000
+    port: 3000
 });
 var clients = [];
 var messages = [];
@@ -14,11 +14,16 @@ var specialWords = false;
 
 server.on("connection", function (ws) {
     addClients(ws);
+    console.log("client connected")
+
     ws.on("message", function (input) {
+        console.log(input);
+        var serialize = JSON.stringify(input);
+        //console.log(serialize);
         var json_deserialized = JSON.parse(input);
-        console.log(json_deserialized);
-        var badWords = searchBadWords(json_deserialized);
-        console.log("Bad word is: " + badWords);
+        //console.log(json_deserialized);
+        //var badWords = searchBadWords(json_deserialized);
+        //console.log("Bad word is: " + badWords);
         //if(badWords === true) { ws.close() }
         console.log("Input is: " + input)
         forwardMessages(input,ws);
@@ -27,23 +32,11 @@ server.on("connection", function (ws) {
     ws.on("close", function () {
         //clients.splice(clients.indexOf(this), 1);
         removeClients(ws);
-        console.log(clients.length);
-        console.log("Inside close: " + clients.length);
+        //console.log(clients.length);
+        //console.log("Inside close: " + clients.length);
         //do something
     });
 }); //end server.on
-
-function searchBadWords (badwordy) {
-    //console.log("Inside badWords function.." + deserialize(badwordy.msg));
-    var bad = badwordy.msg;
-    // allBadWords.forEach( function (word) {
-    //     if(bad.indexOf(word) != -1) {
-    //         badWord == true;
-    //         console.log("Bad Word Alert")
-    //     }//end if
-    // })//end forEach
-    //return badWord
-}
 
 function addClients (client) {
    // console.log("client is: " + this);
@@ -51,22 +44,13 @@ function addClients (client) {
     //console.log("Initial Connection: " + clients.length);
 }
 
-
-// function deserialize (data){
-//     console.log("Inside deserialize function")
-//     var newjson = JSON.parse(data);
-//     console.log("newjosn is ");
-//     console.log(newjson);
-//     return newjson;
-// }
-
 function serialize (data) {
     return JSON.stringify(data)
 }
 
 function forwardMessages (msg,ws) {
     console.log("Inside forwardMessages function")
-    //console.log("ws is: ") + ws;
+    console.log("ws is: ") + ws;
     var forwardingClients = [];
     clients.forEach( function (val){
         forwardingClients.push(val);
