@@ -10,8 +10,8 @@
 
 <script>
 
-//var ws = new WebSocket("ws://localhost:3000");
-var ws = new WebSocket("ws://joe.princesspeach.nyc:3000")
+var ws = new WebSocket("ws://localhost:3000");
+//var ws = new WebSocket("ws://joe.princesspeach.nyc:3000")
 var body = d3.select("body");
 
 
@@ -39,7 +39,6 @@ wrapper.insert("input")
     .attr("type","button")
     .attr("class","button")
     .attr("value","Submit")
-    .style("height","50px")
     .on("click",send)
  
 
@@ -62,7 +61,8 @@ function send () {
       console.log("Unserialied is: " + userObject)
       json_serialized = serialize(userObject); 
       ws.send(json_serialized);
-      console.log("json_serialized is: " + json_serialized);
+      console.log("json_serialized is below")
+      console.log(json_serialized);
       ul.append("li").text(userObject.name + ": " + userObject.msg)
         .attr("class","send")
         .style("background-color","#F7F7F7")
