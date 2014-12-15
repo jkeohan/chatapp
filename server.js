@@ -23,7 +23,7 @@ server.on("connection", function (ws) {
          console.log("json_deserialized is: " + json_deserialized)
         var specialWord = msgInspector(json_deserialized);
        
-        //var badWords = searchBadWords(input);
+        //var badWords = searchBadWords(json_deserialized);
         //console.log("Bad word is: " + badWords);
         //if(badWords === true) { ws.close() }
         if (specialWords === true ) { forwardMessages(specialWord,ws) }
@@ -55,8 +55,6 @@ function msgInspector (object) {
 }
 
 function searchBadWords (badwordy) {
-    var d = deserialize(badwordy); 
-    consoele.log("d is: " + d);
     console.log("Inside badWords function.." + deserialize(badwordy.msg));
     var bad = badwordy.msg;
     allBadWords.forEach( function (word) {
